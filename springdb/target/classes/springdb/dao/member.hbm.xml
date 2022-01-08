@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="springdb.domain">
+
+	<class name="Member" table="MEMBER">
+		<id name="MEMBER_ID" column="MEMBER_ID" />
+		<property name="MEMBER_PW" column="MEMBER_PW" />
+		<property name="MEMBER_NAME" column="MEMBER_NAME" />
+		<property name="MEMBER_EMAIL" column="MEMBER_EMAIL" />
+		<property name="MEMBER_PHONE" column="MEMBER_PHONE" />
+		<property name="MEMBER_NICKNAME" column="MEMBER_NICKNAME" />
+		<property name="MEMBER_GENDER" column="MEMBER_GENDER" />
+		<property name="MEMBER_ADDRESS" column="MEMBER_ADDRESS" />
+		<property name="MEMBER_IP" column="MEMBER_IP" />
+		<property name="MEMBER_LOGINDATE" column="MEMBER_LOGINDATE" />
+		<property name="MEMBER_JOINDATE" column="MEMBER_JOINDATE" />
+
+	</class>
+</hibernate-mapping>

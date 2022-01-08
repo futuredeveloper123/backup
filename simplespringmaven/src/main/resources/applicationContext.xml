@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+
+	<!-- dao.ItemDao 클래스의 인스턴스를 생성하고 itemDao라는 아이디로 관리 -->
+	<bean id="itemDao" class="dao.ItemDao" />
+
+	<!-- Integer클래스의 bean을 생성 -->
+	<bean id="itemid" class="java.lang.Integer">
+		<constructor-arg>
+			<value>11</value>
+		</constructor-arg>
+	</bean>
+
+	<bean id="item" class="domain.Item" p:itemid-ref="itemid"
+		p:itemName="망고 ">
+		<property name="price">
+			<value>3000</value>
+		</property>
+		<property name="description">
+			<value>fruits</value>
+		</property>
+		<property name="pictureUrl">
+			<value>apple.png</value>
+		</property>
+	</bean>
+
+	<bean id="collectionBean" class="domain.CollectionBean">
+		<property name="list">
+			<list>
+				<value>Array</value>
+				<value>ArryaList</value>
+				<value>LinkedList</value>
+				<value>Stack</value>
+				<value>Queue</value>
+				<value>Deque</value>
+			</list>
+		</property>
+		<property name="set">
+			<set>
+				<value>HashSet</value>
+				<value>LinkedHashSet</value>
+				<value>Tree</value>
+			</set>
+		</property>
+		<property name="map">
+			<map>
+				<entry>
+					<key>
+						<value>HashMap</value>
+					</key>
+					<value>키의 순서를 알 수 없음 </value>
+				</entry>
+				<entry key="LinkedHashMap" value="key의 순서는 저장한 순서 " />
+				<entry key="TreeMap">
+					<value>key를 오름차순 정렬해서 저장 </value>
+				</entry>
+			</map>
+		</property>
+		<property name="properties">
+			<props>
+				<prop key="IoC">제어의 역전 </prop>
+				<prop key="DI"> 의존성 주입 </prop>
+				<prop key="AOP">관점지향프로그래 </prop>
+			</props>
+		</property>
+	</bean>
+	<!-- annotation을 스프링 설정 파일에서 사용할 수 있도록 해주는 코드  -->
+	<context:annotation-config/>
+	<!-- 
+	<bean id="userDao" class="serviceimpl.UserDao"/>
+	<bean id="userService" class="serviceimpl.UserServiceImpl"/>
+
+	<bean id="userController" class="controller.UserController"/>
+	 -->
+	 <!--  어노테이션이 붙은 클래스의 bean을 자동 생성하는 코드  -->
+	 <context:component-scan base-package="serviceimpl, controller"/>
+	<!-- 이제 빈을 생성하는 코드가 없어요 !  -->
+	
+	
+</beans>

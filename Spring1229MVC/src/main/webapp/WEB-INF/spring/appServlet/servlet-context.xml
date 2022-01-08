@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+
+	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
+	
+	<!-- Enables the Spring MVC @Controller programming model -->
+	<annotation-driven />
+
+	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
+	<resources mapping="/resources/**" location="/resources/" />
+
+	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
+	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<beans:property name="prefix" value="/WEB-INF/views/" />
+		<beans:property name="suffix" value=".jsp" />
+		<beans:property name="order" value="1"/>
+	</beans:bean>
+	
+	<!--  View 이름을 가지고 직접 View 를 선택할 수 있도록 해주는 ViewResolver -->
+	<beans:bean class="org.springframework.web.servlet.view.BeanNameViewResolver">
+		<beans:property name="order" value="0"/>
+	</beans:bean>
+	
+	<!-- download 라는 뷰 이름이 왓을 떄 DownloadView 로 출력하도록 해주는 설정 -->
+	<beans:bean id="download" class="kr.com.database.view.DownloadView"></beans:bean>
+	
+	<!--  Controller 에서 excel 이라는 뷰 이름을 리턴 했을 때 ExcelView 를 출력하도록 설정  -->
+	<beans:bean id="excel" class="kr.com.database.view.ExcelView"></beans:bean>
+	
+	<!--  Controller 에서 pdf 라는 뷰 이름을 리턴 했을 떄 PdfView 를 출력하도록 설정 -->
+	<beans:bean id="pdf" class="kr.com.database.view.PdfView"></beans:bean>
+	<!-- Controller 에서  View 이름이 json 일떄 JSONView 로 출력하도록 설정 -->
+	<beans:bean id="json" class="org.springframework.web.servlet.view.json.MappingJackson2JsonView"></beans:bean>
+	<!-- itemreport 라는 View 이름이 전달 될 경우 List 라는 데이터를 XML 로 출력하는 요청을 처리하는 뷰 설정 -->
+	<beans:bean class="org.springframework.oxm.jaxb.Jaxb2Marshaller" id="marshaller">
+		<beans:property name="classesToBeBound">
+			<beans:list>
+				<beans:value>
+					kr.com.database.domain.ItemReport
+				</beans:value>
+			</beans:list>
+		</beans:property>
+	</beans:bean>
+	
+	<beans:bean class="org.springframework.web.servlet.view.xml.MarshallingView" id="itemreport">
+		<beans:property name="marshaller" ref="marshaller"></beans:property>
+		<beans:property name="modelKey" value="list"></beans:property>
+	</beans:bean>
+	
+	<!-- /exception 요청이 오면 input 이라는 뷰이름을 리턴하도록 설정 -->
+	<view-controller path="/exception" view-name="input"/>
+	
+	<!-- 메시지 파일 설정 -->
+	<beans:bean class="org.springframework.context.support.ResourceBundleMessageSource" id="messageSource">
+		<beans:property name="basenames">
+			<beans:list>
+				<beans:value>message/label</beans:value>
+			</beans:list>
+		</beans:property>
+	
+	</beans:bean>
+	
+	
+	
+	<context:component-scan base-package="kr.com.database" />
+	
+	<!-- web.xml 파일에서 서블릿 설정은 /*, /, 디렉토리 패턴을 사용하는 경우 확장자가 css 나 js 등도 Controller 가 처리할려고 하기 때문에 
+	정적 자원의 링크를 Controller 가 처리해 주지 않으면 404 에러가발생 -->
+	<!-- Spring 의 Controeller 가 처리하지 못하는 요청은 WAS 가 처리 하도록 설정  -->
+	<default-servlet-handler/>
+	
+	<!-- Hibernate의 트랙잭션 매니저 
+	중간에 변환 과정이 존재하기에 조금 다르다 
+	여기 작성을 했는데 에러가 날때는 servlet-context.xml 로 옮기면 되는 경우가 있음 , 원래는 무조건 되어야 하지만 늦게 연동 되는 경우가 있어서 그럼  -->
+	<beans:bean class="org.springframework.orm.hibernate5.HibernateTransactionManager" id="transactionManager">
+		<beans:property name="sessionFactory" ref="sessionFactory"></beans:property>
+	</beans:bean>
+	
+	
+	
+	
+	
+	<!-- annotation 을 이용해서 트앤잭션을 사용할 수 있도록 해주는 설정 -->
+	<tx:annotation-driven/>
+	
+	
+	
+	
+	
+</beans:beans>

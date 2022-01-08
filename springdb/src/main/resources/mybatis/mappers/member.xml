@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="member">
+
+	<insert id="insertmember" parameterType="Member">
+		insert into member
+		values(#{MEMBER_ID},#{MEMBER_PW},#{MEMBER_NAME},#{MEMBER_EMAIL},
+		#{MEMBER_PHONE},#{MEMBER_NICKNAME},#{MEMBER_GENDER},#{MEMBER_ADDRESS},
+		#{MEMBER_IP},#{MEMBER_LOGINDATE},#{MEMBER_JOINDATE})
+	</insert>
+	<!-- <select id="maxcode" resultType="java.lang.Integer" parameterType=""> 
+		select max(code) from member </select> -->
+
+	<select id="getlist" resultType="Member">
+		select *
+		from member
+	</select>
+
+	<select id="getmember" parameterType="java.lang.String"
+		resultType="Member">
+		select *
+		from member
+		where MEMBER_ID=#{MEMBER_ID}
+	</select>
+
+	<update id="updatemember" parameterType="Member">
+		update member
+		set MEMBER_PW = #{MEMBER_PW}
+		where MEMBER_ID = #{MEMBER_ID}
+	</update>
+	
+	<delete id="deletemember" parameterType="java.lang.String">
+		delete from member
+		where MEMBER_ID = #{Member_ID}
+		
+	</delete>
+</mapper>
